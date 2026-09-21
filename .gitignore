@@ -1,0 +1,21 @@
+@"
+# Virtual environment
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+*.log
+
+# Environment variables
+.env
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+"@ | Out-File -FilePath .gitignore -Encoding utf8
