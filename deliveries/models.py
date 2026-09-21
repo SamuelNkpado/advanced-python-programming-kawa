@@ -59,5 +59,8 @@ class Delivery(models.Model):
     weight_kg = models.DecimalField(max_digits=8, decimal_places=2)
     recorded_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = "Deliveries"
+
     def __str__(self):
         return f"Delivery #{self.pk} - {self.weight_kg}kg from Plot #{self.plot_id}"
