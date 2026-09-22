@@ -64,3 +64,16 @@ class Delivery(models.Model):
 
     def __str__(self):
         return f"Delivery #{self.pk} - {self.weight_kg}kg from Plot #{self.plot_id}"
+
+class PriceSchedule(models.Model):
+    """The current price paid per kg of cherry, by season."""
+    season_label = models.CharField(max_length=50)  # e.g. "2026 Main Harvest"
+    price_per_kg = models.DecimalField(max_digits=8, decimal_places=2)
+    effective_from = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = "Price schedules"
+
+    def __str__(self):
+        return f"{self.season_label}: {self.price_per_kg}/kg"

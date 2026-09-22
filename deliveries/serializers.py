@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Sector, WashingStation, Farmer, Plot, Delivery
+from .models import Sector, WashingStation, Farmer, Plot, Delivery, PriceSchedule
 
 
 class SectorSerializer(serializers.ModelSerializer):
@@ -53,3 +53,11 @@ class DeliverySerializer(serializers.ModelSerializer):
         if value <= 0:
             raise serializers.ValidationError("Delivery weight must be greater than zero.")
         return value
+
+
+class PriceScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PriceSchedule
+        fields = ['id', 'season_label', 'price_per_kg', 'effective_from', 'is_active']
+
+    

@@ -3,10 +3,10 @@ import threading
 from django.utils import timezone
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
-from .models import Sector, WashingStation, Farmer, Plot, Delivery
+from .models import Sector, WashingStation, Farmer, Plot, Delivery, PriceSchedule
 from .serializers import (
     SectorSerializer, WashingStationSerializer, FarmerSerializer,
-    PlotSerializer, DeliverySerializer,
+    PlotSerializer, DeliverySerializer, PriceScheduleSerializer
 )
 from .risk_registry import check_plot_risk, RegistryUnavailableError
 
@@ -98,3 +98,13 @@ class DeliveryViewSet(viewsets.ModelViewSet):
     pagination_class = DeliveryFeedPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['plot__washing_station__name']
+
+class PriceScheduleViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Task 4 mandatory endpoint: GET /api/price-schedule/
+    Read-only - price management (who sets prices, approval flow) is
+    out of scope for this MVP; see ADR.md.
+    """
+    queryset = PriceSchedule.objects.filter(is_active=True).order_by('-effective_from')
+    serializer_class = PriceScheduleSerializer
+    
