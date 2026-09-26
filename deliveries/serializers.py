@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Sector, WashingStation, Farmer, Plot, Delivery, PriceSchedule
+from decimal import Decimal
 
 
 class SectorSerializer(serializers.ModelSerializer):
@@ -49,7 +50,7 @@ class DeliverySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['recorded_at']
 
-    def validate_weight_kg(self, value):
+    def validate_weight_kg(self, value: Decimal) -> Decimal:
         if value <= 0:
             raise serializers.ValidationError("Delivery weight must be greater than zero.")
         return value

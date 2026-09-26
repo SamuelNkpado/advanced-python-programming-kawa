@@ -13,7 +13,7 @@ from .risk_registry import check_plot_risk, RegistryUnavailableError
 logger = logging.getLogger('deliveries')
 
 
-def run_risk_check(plot_id: int):
+def run_risk_check(plot_id: int) -> None:
     """
     Background task: check a plot's risk status against the (simulated)
     external registry, and update the record once resolved.
@@ -66,7 +66,7 @@ class PlotViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['sector__name', 'washing_station__name']
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: PlotSerializer) -> None:
         plot = serializer.save()
         thread = threading.Thread(target=run_risk_check, args=(plot.id,), daemon=True)
         thread.start()

@@ -5,7 +5,7 @@ class Sector(models.Model):
     """An administrative sector where a plot is located."""
     name = models.CharField(max_length=100, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -14,7 +14,7 @@ class WashingStation(models.Model):
     name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=200, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -24,7 +24,7 @@ class Farmer(models.Model):
     phone_number = models.CharField(max_length=20)
     registered_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -49,7 +49,7 @@ class Plot(models.Model):
 
     registered_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Plot #{self.pk} ({self.farmer.name}, {self.sector.name})"
 
 
@@ -62,7 +62,7 @@ class Delivery(models.Model):
     class Meta:
         verbose_name_plural = "Deliveries"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Delivery #{self.pk} - {self.weight_kg}kg from Plot #{self.plot_id}"
 
 class PriceSchedule(models.Model):
@@ -75,5 +75,5 @@ class PriceSchedule(models.Model):
     class Meta:
         verbose_name_plural = "Price schedules"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.season_label}: {self.price_per_kg}/kg"
