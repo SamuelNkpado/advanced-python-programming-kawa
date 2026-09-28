@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_spectacular',
     'deliveries',
 ]
 
@@ -144,4 +145,14 @@ LOGGING = {
             'level': 'INFO',
         },
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Kawa Network API',
+    'DESCRIPTION': 'Delivery-tracking API for the Kawa Network washing station pilot at Nyaruguru.',
+    'VERSION': '1.0.0',
 }

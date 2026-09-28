@@ -1,0 +1,1328 @@
+openapi: 3.0.3
+info:
+  title: Kawa Network API
+  version: 1.0.0
+  description: Delivery-tracking API for the Kawa Network washing station pilot at
+    Nyaruguru.
+paths:
+  /api/deliveries/:
+    get:
+      operationId: deliveries_list
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - deliveries
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDeliveryList'
+          description: ''
+    post:
+      operationId: deliveries_create
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      tags:
+      - deliveries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+          description: ''
+  /api/deliveries/{id}/:
+    get:
+      operationId: deliveries_retrieve
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this delivery.
+        required: true
+      tags:
+      - deliveries
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+          description: ''
+    put:
+      operationId: deliveries_update
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this delivery.
+        required: true
+      tags:
+      - deliveries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Delivery'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+          description: ''
+    patch:
+      operationId: deliveries_partial_update
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this delivery.
+        required: true
+      tags:
+      - deliveries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedDelivery'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDelivery'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDelivery'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+          description: ''
+    delete:
+      operationId: deliveries_destroy
+      description: |-
+        Delivery recording, and the station-facing delivery feed.
+        Deliveries are accepted regardless of the plot's risk_status -
+        see ADR.md for the reasoning (Emmanuel cannot hold a farmer at
+        the scale waiting on a registry check).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this delivery.
+        required: true
+      tags:
+      - deliveries
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/farmers/:
+    get:
+      operationId: farmers_list
+      tags:
+      - farmers
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Farmer'
+          description: ''
+    post:
+      operationId: farmers_create
+      tags:
+      - farmers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+          description: ''
+  /api/farmers/{id}/:
+    get:
+      operationId: farmers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this farmer.
+        required: true
+      tags:
+      - farmers
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+          description: ''
+    put:
+      operationId: farmers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this farmer.
+        required: true
+      tags:
+      - farmers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Farmer'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+          description: ''
+    patch:
+      operationId: farmers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this farmer.
+        required: true
+      tags:
+      - farmers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFarmer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFarmer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFarmer'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+          description: ''
+    delete:
+      operationId: farmers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this farmer.
+        required: true
+      tags:
+      - farmers
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/plots/:
+    get:
+      operationId: plots_list
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      parameters:
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - plots
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plot'
+          description: ''
+    post:
+      operationId: plots_create
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      tags:
+      - plots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Plot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Plot'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: ''
+  /api/plots/{id}/:
+    get:
+      operationId: plots_retrieve
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plot.
+        required: true
+      tags:
+      - plots
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: ''
+    put:
+      operationId: plots_update
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plot.
+        required: true
+      tags:
+      - plots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Plot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Plot'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: ''
+    patch:
+      operationId: plots_partial_update
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plot.
+        required: true
+      tags:
+      - plots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPlot'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPlot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPlot'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: ''
+    delete:
+      operationId: plots_destroy
+      description: |-
+        Plot registration and listing.
+        Registering a plot here also queues an async risk check (Task 3) -
+        it runs in a background thread and does not block this response.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this plot.
+        required: true
+      tags:
+      - plots
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/price-schedule/:
+    get:
+      operationId: price_schedule_list
+      description: |-
+        Task 4 mandatory endpoint: GET /api/price-schedule/
+        Read-only - price management (who sets prices, approval flow) is
+        out of scope for this MVP; see ADR.md.
+      tags:
+      - price-schedule
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceSchedule'
+          description: ''
+  /api/price-schedule/{id}/:
+    get:
+      operationId: price_schedule_retrieve
+      description: |-
+        Task 4 mandatory endpoint: GET /api/price-schedule/
+        Read-only - price management (who sets prices, approval flow) is
+        out of scope for this MVP; see ADR.md.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this price schedule.
+        required: true
+      tags:
+      - price-schedule
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceSchedule'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/sectors/:
+    get:
+      operationId: sectors_list
+      tags:
+      - sectors
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sector'
+          description: ''
+    post:
+      operationId: sectors_create
+      tags:
+      - sectors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sector'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Sector'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Sector'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+          description: ''
+  /api/sectors/{id}/:
+    get:
+      operationId: sectors_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this sector.
+        required: true
+      tags:
+      - sectors
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+          description: ''
+    put:
+      operationId: sectors_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this sector.
+        required: true
+      tags:
+      - sectors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sector'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Sector'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Sector'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+          description: ''
+    patch:
+      operationId: sectors_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this sector.
+        required: true
+      tags:
+      - sectors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSector'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSector'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSector'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sector'
+          description: ''
+    delete:
+      operationId: sectors_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this sector.
+        required: true
+      tags:
+      - sectors
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/washing-stations/:
+    get:
+      operationId: washing_stations_list
+      tags:
+      - washing-stations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WashingStation'
+          description: ''
+    post:
+      operationId: washing_stations_create
+      tags:
+      - washing-stations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WashingStation'
+          description: ''
+  /api/washing-stations/{id}/:
+    get:
+      operationId: washing_stations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this washing station.
+        required: true
+      tags:
+      - washing-stations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WashingStation'
+          description: ''
+    put:
+      operationId: washing_stations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this washing station.
+        required: true
+      tags:
+      - washing-stations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WashingStation'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WashingStation'
+          description: ''
+    patch:
+      operationId: washing_stations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this washing station.
+        required: true
+      tags:
+      - washing-stations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWashingStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWashingStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWashingStation'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WashingStation'
+          description: ''
+    delete:
+      operationId: washing_stations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this washing station.
+        required: true
+      tags:
+      - washing-stations
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Delivery:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plot:
+          type: integer
+        plot_sector:
+          type: string
+          readOnly: true
+        plot_washing_station:
+          type: string
+          readOnly: true
+        plot_risk_status:
+          type: string
+          readOnly: true
+        weight_kg:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        recorded_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - plot
+      - plot_risk_status
+      - plot_sector
+      - plot_washing_station
+      - recorded_at
+      - weight_kg
+    Farmer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          maxLength: 20
+        registered_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - name
+      - phone_number
+      - registered_at
+    PaginatedDeliveryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Delivery'
+    PatchedDelivery:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plot:
+          type: integer
+        plot_sector:
+          type: string
+          readOnly: true
+        plot_washing_station:
+          type: string
+          readOnly: true
+        plot_risk_status:
+          type: string
+          readOnly: true
+        weight_kg:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        recorded_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedFarmer:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        phone_number:
+          type: string
+          maxLength: 20
+        registered_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedPlot:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        farmer:
+          type: integer
+        sector:
+          type: integer
+        sector_name:
+          type: string
+          readOnly: true
+        washing_station:
+          type: integer
+        washing_station_name:
+          type: string
+          readOnly: true
+        risk_status:
+          allOf:
+          - $ref: '#/components/schemas/RiskStatusEnum'
+          readOnly: true
+        risk_checked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        registered_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedSector:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+    PatchedWashingStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        location:
+          type: string
+          maxLength: 200
+    Plot:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        farmer:
+          type: integer
+        sector:
+          type: integer
+        sector_name:
+          type: string
+          readOnly: true
+        washing_station:
+          type: integer
+        washing_station_name:
+          type: string
+          readOnly: true
+        risk_status:
+          allOf:
+          - $ref: '#/components/schemas/RiskStatusEnum'
+          readOnly: true
+        risk_checked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        registered_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - farmer
+      - id
+      - registered_at
+      - risk_checked_at
+      - risk_status
+      - sector
+      - sector_name
+      - washing_station
+      - washing_station_name
+    PriceSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        season_label:
+          type: string
+          maxLength: 50
+        price_per_kg:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,6}(?:\.\d{0,2})?$
+        effective_from:
+          type: string
+          format: date-time
+          readOnly: true
+        is_active:
+          type: boolean
+      required:
+      - effective_from
+      - id
+      - price_per_kg
+      - season_label
+    RiskStatusEnum:
+      enum:
+      - pending
+      - cleared
+      - flagged
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `cleared` - Cleared
+        * `flagged` - Flagged
+    Sector:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    WashingStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        location:
+          type: string
+          maxLength: 200
+      required:
+      - id
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

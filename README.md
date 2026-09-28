@@ -324,3 +324,21 @@ The architecture decisions themselves - what to build, which
 trade-offs to accept, and the reasoning in ADR.md - reflect my own
 analysis of the Kawa Network brief and stakeholder constraints, and
 were reviewed and written in my own words prior to submission.
+
+## API Documentation
+
+The API schema is generated automatically from the code with
+drf-spectacular, so it stays in sync with the actual endpoints.
+
+- Interactive docs (Swagger UI): http://127.0.0.1:8000/api/docs/
+- Raw OpenAPI schema (served): http://127.0.0.1:8000/api/schema/
+- Committed schema file: schema.yml in the repository root
+
+To regenerate schema.yml after changing any endpoint or serializer:
+
+    python manage.py spectacular --file schema.yml
+
+Note: the Swagger UI shows padlock icons next to each endpoint. The
+schema generator assumes endpoints may require authentication, but
+this MVP has no authentication yet. Access scoping by sector and
+washing station is planned for Formative 2.
